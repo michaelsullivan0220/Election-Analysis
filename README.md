@@ -1,175 +1,68 @@
-# Election-Analysis
+# Election Analysis
 
-.csv file with ballot ID, name, county, and candidate
+Write algorithms that will assist the confirmation and analysis of election results.
 
----
+## Election Audit Results
 
-### Complete the Following Through Python Scripting
+- The total number of votes cast in the election is `369,711`. Since each row represents one vote, as the algorithm loops through, it will increases a `total_votes` variable by one. This variable was set to zero before the loop started.
 
-- Total number of votes cast
-- A complete list of candidates who received votes
-- Total number of votes each candidate received
-- Percentage of votes each candidate won
-- The winner of the election based on popular vote
+    ```py
+    for row in reader:
+       total_votes = total_votes + 1
+    ```
 
----
+## County Summary
 
-### Pseudocoding
+- The total percentage and number of votes per county are as follows:  
 
-To facilitate the design process, programmers use pseudocode to create models or flowcharts for their programs. Pseudocode is like a roadmap of what you think your code will look like or the steps you'll take to complete the task at hand.
+    ```
+    Jefferson: 10.5% with 38,855 votes.
+    Denver: 82.8% with 306,055 votes.
+    Arapahoe: 6.7% with 24,801 votes.
+    ```
 
-Pseudo means "fake," so pseudocode is essentially fake code. Pseudocode is an informal language that has no syntax rules and is not meant to be executed. The point of using pseudocode is to focus on the overall design of the program.
+    The counties are added to a list named `counties_list` by checking every row to see if the county associated with that row is already in the counties list or not listed yet. If it is not listed, it will append (add) the county name to the list and set its vote count to zero, then add 1 to the total to capture that rows vote. If it is already listed, it will jump right to adding the vote to the total.
 
-For example, let's say someone asks you how to wash clothes. You might break down this task into a series of basic steps, like this:
+    ```py
+    if county_name not in county_options :
+            
+        county_options.append(county_name)
+        counties_votes[county_name] = 0
 
-- Open the lid of the washing machine.
-- Put clothes in the washing machine.
-- Turn on the water.
-- Add detergent.
-- Close the lid.
-- These well-defined, logical steps that are sequentially ordered is an example of an algorithm.
+    counties_votes[county_name] += 1
+    ```
 
-Similarly, a programmer or analyst may write the steps to count the votes of an election like this:
+- The county with the most votes, was **Denver** county with **306,055** votes. 
 
-- Open the data file.
-- Write down the names of all the candidates.
-- Add a vote count for each candidate.
-- Get the total votes for each candidate.
-- Get the total votes cast for the election.
+## Candidate Summary
 
-A good place to start with when writing pseudocode is to think about the end goal. Then, consider the steps you need to take in order to reach that end goal. It's fine if you don't know all of the steps at first; this will come with practice. Also, the more you write pseudocode, the more of a feel you'll get for planning and design using pseudocode. Simply put, there is no right or wrong way to write pseudocode, as long as you're breaking down the problem into smaller, more manageable problems to solve.
+- The breakdown of votes by candidate can be seen below:
 
----
+    ```
+    Charles Casper Stockham: 23.0% with 85,213 votes.
+    Diana DeGette: 73.8% with 272,892 votes.
+    Raymon Anthony Doane: 3.1% with 11,606 votes.
+    ```
 
-### Importing Dependencies
+    The method to retrieve these values is similar to tallying the votes by county value. The algorithm will check to see if the candidate name associated that row is already in the `candidate_options` list. If it is not listed, it will append (add) the candidate's name to the list and set its vote count to zero, then add 1 to the total to capture that rows vote. If it is already listed, it will jump right to adding the vote to the total for that candidate.
 
-Dependencies are modules and packages, or a programming script that someone else has written, that allows you to increase the functional programming of your code, or speed and efficiency.
+    ```
+    if candidate_name not in candidate_options:
 
-```py
-# Import the datetime class from the datetime module.
-import datetime as dt
-# Use the now() attribute on the datetime class to get the present time.
-now = datetime.datetime.now()
-# Print the present time.
-print("The time right now is ", now)
-```
+        candidate_options.append(candidate_name)
+        candidate_votes[candidate_name] = 0
 
-- To use the datetime module all we need to do is to import it using `import datetime`.
-- In line 4, we declare the now variable to hold the time right *`now`*.
-- The now variable is set equal to datetime.datetime.now(), where:
-- The first datetime is the datetime module, (first doll).
-- The second datetime is the datetime class (second doll).
-- Then we use the datetime attribute, now(), (third doll) on the datetime class, i.e., datetime.now(), to get the current time.
+    candidate_votes[candidate_name] += 1
+    ```
 
----
+## Winning Candidate
 
-### Packages
+- The winning candidate was **Diana DeGette**. This candidate received 73.8% of the vote with **272,892** total votes.
 
-Packages are folders that contain a set of Python modules. The folders in the packages may contain various subpackages, or other folders. To import packages, we use the import statement, as we did with the datetime module.
+## Election Audit Summary
 
----
+Although this algorithm was designed for this specific election, the code can be modified to audit other elections as well.
 
-### Modules
+- In the event that more counties, states or other areas need to be accounted for across multiple .csv files, this algorithm can be modified to compile all the data into one election-results.txt. Adding a WITH statement to open and read another .csv file and the same IF statements can add analyze and add the data to existing variables.
 
-Modules are a separate software component. They are usually Python files with a .py extension. The name of the module will be the name of the file. A Python module can have functions, classes, or variables defined and implemented.
-
----
-
-## NOTE:
-
-### **If your script requires the use of programs, modules, and packages, one of the first steps is to import dependencies for your Python script.**
-
----
-
-## CSV Module
-
-In Python there's a built-in module called `csv`, which allows users to easily pull in data from external CSV files and perform operations on them.
-
-The csv module has many functions that allow us to read and write tabular data in CSV format. With the csv module, we can read data from a file that was generated by Excel and write data to a file in a format that can be read by Excel.
-
-*To see all the functions available in the csv module, follow these steps:*
-
-- *Launch the Python interpreter.*
-- *Type import csv to import the module.
-- *Press Enter.
-- *Type dir(csv). The "dir" is short for "directory".*
-
----
-
-## Open the File
-
-You can access a file in a folder on your computer if you know the direct file path. If you do not know the direct file path, but know the folder and filename, you can access the file indirectly.
-
-After providing the file path in our Python script, we will be able to open and read the file. When the program reads the file, it creates a file object in the computer's memory, which provides a way for the program to work with that file. In our script, we can use a variable to reference the file object.
-
-The general format for opening a file is:
-
-```py
-file_variable = open(filename, mode).
-```
-
-Let's break down what each component is doing in the general format.
-
-`file_variable` is the name of the variable that will reference the file object.
-`filename` is a string specifying the name of the file.
-`mode` is a string specifying the mode for reading or writing the file object. The possible modes are:
-
-- "r": Open a file to be read.
-- "w": Open a file to write to it. This will overwrite an existing file and create a file if one does not already exist.
-- "x": Open a file for exclusive creation. If the file does not exist, it will not create one.
-- "a": Open a file to append data to an existing file. If a file does not exist, it creates one, if a file has been created the data will be added to the file.
-- "+": Open a file for reading and writing.
-
----
-
-## Close the File
-
-```py
-election_data.close()
-```
-
-Closing a file disconnects the program from the file. It's important that you close the file after you read a file and write data to a file.
-
-When you read data from a file and it is not closed at the end of the operation, you can lose some of the data. When you write data to a file, the data is not stored in the file at first. It is written to a "buffer" in the computer memory and may be overwritten later if the file is not closed. Once you close the file, the data is stored in the file.
-
----
-
-## NOTE:
-
-### Python has a way to read and write to a file without needing to use the open() and close() functions every time. We simply replace the open() function with the with statement
-
-The with statement opens the file and ensures proper acquisition or release of any data without having to close the file, to ensure that the data isn't lost or corrupted.
-
-The format for the with statement is the following:
-
-
-```py
-with open(filename) as file_variable:
-```
-
-The file_variable is used to reference the file object throughout the script.
-
----
-
-## OS Module
-
-```py
-import os
-```
-
-Sometimes we won't know the direct path to the file on our computer, only that it's in a specific folder. Usually, you will know the direct path, but in a real-world setting, you may be given the indirect path to the file by a fellow coworker or your manager.
-
-To access and open a file for which the direct path is unknown, we use the os module.
-
-The os module allows us to interact with our operating system.
-
-Python provides a submodule `os.path` that allows us to access files on different operating systems, like macOS and Windows.
-
-The `os.path` submodule contains several useful functions to make it easier to join a path.
-
-There is a function called `join`. The `join()` function joins our file path components together when they are provided as separate strings; then, it returns a direct path with the appropriate operating system separator, forward slash for macOS or backward slash for Windows.
-
-To declare a variable for the file to load, connect the `os.path` submodule with the `join()` function, like this: os.path.join(). This is called `chaining`.
-
-`Chaining` is a programmatic style that is used for making multiple method calls on the same object. This is a common practice that makes code look clean and concise.
-
+- In addition to reading multiple files, additional IF statements can be added to calculate results for propositional votes that are typically included on election ballots. These votes are usually 'Yes' or 'No' and can be tallied by initializing a variable (i.e. prop_405) to zero before looping and adding or skipping based on the result of an IF statement.
